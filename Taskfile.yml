@@ -1,0 +1,60 @@
+version: 3
+
+silent: true
+
+tasks:
+  # Building
+  build_client:
+    dir: client
+    cmd: gleam run -m lustre/dev build
+
+  build_server:
+    dir: server
+    cmd: gleam build
+
+  build_prod:
+    dir: server
+    cmds:
+      - task: build_client
+      - gleam export erlang-shipment
+
+  build:
+    cmds:
+      - task: build_client
+      - task: build_server
+
+  # Testing
+  test_client:
+    dir: client
+    cmd: gleam test
+
+  test_server:
+    dir: server
+    cmd: gleam test
+
+  test_shared:
+    dir: shared
+    cmd: gleam test
+
+  test:
+    cmds:
+      - task: test_client
+      - task: test_server
+      - task: test_shared
+
+  # Running
+  run:
+    dir: server
+    cmds:
+      - task: build
+      - gleam run
+
+  prod:
+    dir: server
+    cmds:
+      - task: build_prod
+      - ./build/erlang-shipment/entrypoint.sh run
+
+  docker:
+    cmd: docker run --rm -it -p 5001:5001 $(docker build -q .)
+    ignore_error: true
