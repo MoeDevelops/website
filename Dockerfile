@@ -3,7 +3,7 @@ FROM alpine:latest AS installer
 
 RUN apk add go-task
 
-FROM ghcr.io/gleam-lang/gleam:v1.9.0-rc2-erlang-alpine AS builder
+FROM ghcr.io/gleam-lang/gleam:v1.9.1-erlang-alpine AS builder
 
 WORKDIR /build
 COPY --from=installer /usr/bin/go-task /usr/bin/task
