@@ -1,3 +1,4 @@
+import client/icon
 import lustre
 import lustre/attribute
 import lustre/effect.{type Effect}
@@ -21,6 +22,12 @@ pub fn base(content: element.Element(a)) -> element.Element(a) {
       ]),
       html.meta([attribute.name("darkreader-lock")]),
       html.title([], "Client"),
+      html.link([
+        attribute.href(
+          "https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css",
+        ),
+        attribute.rel("stylesheet"),
+      ]),
       html.link([
         attribute.href("/static/client.css"),
         attribute.type_("text/css"),
@@ -96,6 +103,16 @@ pub fn view(model: Model) -> Element(Message) {
         ),
       ],
       [html.text("Change color")],
+    ),
+    footer(),
+  ])
+}
+
+pub fn footer() -> Element(a) {
+  html.footer([], [
+    icon.link(
+      "lab la-github text-6xl",
+      "https://github.com/MoeDevelops/website",
     ),
   ])
 }
