@@ -1,4 +1,4 @@
-import client/icon
+import client/layout
 import lustre
 import lustre/attribute
 import lustre/effect.{type Effect}
@@ -9,39 +9,6 @@ import lustre/event
 pub fn main() {
   let app = lustre.application(fn(_) { init() }, update, view)
   let assert Ok(_) = lustre.start(app, "#app", Nil)
-}
-
-// Equivalent of index.html in lustre elements
-pub fn base(content: element.Element(a)) -> element.Element(a) {
-  html.html([attribute.attribute("lang", "en")], [
-    html.head([], [
-      html.meta([attribute.attribute("charset", "UTF-8")]),
-      html.meta([
-        attribute.attribute("content", "width=device-width, initial-scale=1.0"),
-        attribute.name("viewport"),
-      ]),
-      html.meta([attribute.name("darkreader-lock")]),
-      html.title([], "Client"),
-      html.link([
-        attribute.href(
-          "https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css",
-        ),
-        attribute.rel("stylesheet"),
-      ]),
-      html.link([
-        attribute.href("/static/client.css"),
-        attribute.type_("text/css"),
-        attribute.rel("stylesheet"),
-      ]),
-      html.script(
-        [attribute.src("/static/client.mjs"), attribute.type_("module")],
-        "",
-      ),
-    ]),
-    html.body([attribute.class("bg-black text-white")], [
-      html.div([attribute.id("app")], [content]),
-    ]),
-  ])
 }
 
 pub type Model {
@@ -85,7 +52,7 @@ pub fn view(model: Model) -> Element(Message) {
         attribute.class(
           "text-8xl "
           <> case model.color {
-            White -> "text-white"
+            White -> "dark:text-white"
             Blue -> "text-blue-500"
             Red -> "text-red-500"
             Yellow -> "text-yellow-500"
@@ -99,20 +66,11 @@ pub fn view(model: Model) -> Element(Message) {
       [
         event.on_click(ChangeColor),
         attribute.class(
-          "bg-white hover:bg-gray-200 text-black font-bold py-2 px-4 rounded",
+          "dark:bg-white dark:hover:bg-gray-300 dark:text-black bg-black hover:bg-gray-800 text-white font-bold py-2 px-4 rounded",
         ),
       ],
       [html.text("Change color")],
     ),
-    footer(),
-  ])
-}
-
-pub fn footer() -> Element(a) {
-  html.footer([], [
-    icon.link(
-      "lab la-github text-6xl",
-      "https://github.com/MoeDevelops/website",
-    ),
+    layout.footer(),
   ])
 }

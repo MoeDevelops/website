@@ -1,4 +1,5 @@
 import client
+import client/layout
 import gleam/http/request
 import gleam/http/response
 import lustre/element
@@ -46,7 +47,7 @@ fn build_lustre(
   |> wisp.html_body(
     client.init().0
     |> view()
-    |> client.base()
+    |> layout.base()
     |> element.to_document_string_builder(),
   )
 }
