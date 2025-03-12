@@ -21,7 +21,7 @@ pub fn base(content: Element(a)) -> Element(a) {
       html.link([
         attribute.href("/favicon.svg"),
         attribute.type_("image/svg+xml"),
-        attribute.rel("icon")
+        attribute.rel("icon"),
       ]),
       html.link([
         attribute.href("/client/client.min.css"),
