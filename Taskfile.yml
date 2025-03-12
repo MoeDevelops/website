@@ -6,7 +6,7 @@ tasks:
   # Building
   build_client:
     dir: client
-    cmd: gleam run -m lustre/dev build
+    cmd: gleam run -m lustre/dev build --minify=true --outdir=priv/static/client
 
   build_server:
     dir: server

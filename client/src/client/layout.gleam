@@ -20,12 +20,12 @@ pub fn base(content: Element(a)) -> Element(a) {
         attribute.rel("stylesheet"),
       ]),
       html.link([
-        attribute.href("/static/client.css"),
+        attribute.href("/client/client.min.css"),
         attribute.type_("text/css"),
         attribute.rel("stylesheet"),
       ]),
       html.script(
-        [attribute.src("/static/client.mjs"), attribute.type_("module")],
+        [attribute.src("/client/client.min.mjs"), attribute.type_("module")],
         "",
       ),
     ]),

@@ -30,3 +30,11 @@ jobs:
 
       - name: Check format
         run: gleam format --check
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Docker build
+        run: docker build .
