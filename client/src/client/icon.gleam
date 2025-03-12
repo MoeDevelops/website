@@ -7,7 +7,12 @@ pub fn link(
   link: String,
   alt: String,
 ) -> Element(a) {
-  html.a([attribute.href(link), attribute.attribute("aria-label", alt), attribute.target("_blank")], [
-    icon([attribute.alt(alt), attribute.class("w-12 h-12")]),
-  ])
+  html.a(
+    [
+      attribute.href(link),
+      attribute.attribute("aria-label", alt),
+      attribute.target("_blank"),
+    ],
+    [icon([attribute.alt(alt), attribute.class("w-12 h-12")])],
+  )
 }
