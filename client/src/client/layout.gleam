@@ -17,7 +17,12 @@ pub fn base(content: Element(a)) -> Element(a) {
         attribute.content("Personal website for MoeDevelops"),
       ]),
       html.meta([attribute.name("darkreader-lock")]),
-      html.title([], "Client"),
+      html.title([], "Very cool website"),
+      html.link([
+        attribute.href("/favicon.svg"),
+        attribute.type_("image/svg+xml"),
+        attribute.rel("icon")
+      ]),
       html.link([
         attribute.href("/client/client.min.css"),
         attribute.type_("text/css"),
