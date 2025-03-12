@@ -11,6 +11,7 @@ pub fn base(content: Element(a)) -> Element(a) {
         attribute.attribute("content", "width=device-width, initial-scale=1.0"),
         attribute.name("viewport"),
       ]),
+      html.meta([attribute.name("description"), attribute.content("Personal website for MoeDevelops")]),
       html.meta([attribute.name("darkreader-lock")]),
       html.title([], "Client"),
       html.link([
@@ -40,6 +41,7 @@ pub fn footer() -> Element(a) {
     icon.link(
       "lab la-github text-6xl",
       "https://github.com/MoeDevelops/website",
+      "Link to GitHub"
     ),
   ])
 }
