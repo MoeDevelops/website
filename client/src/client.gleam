@@ -20,6 +20,7 @@ pub type Color {
   Red
   Blue
   Yellow
+  Pink
 }
 
 pub type Message {
@@ -37,7 +38,8 @@ pub fn update(model: Model, message: Message) -> #(Model, Effect(Message)) {
         Blue -> Red
         Red -> White
         White -> Yellow
-        Yellow -> Blue
+        Yellow -> Pink
+        Pink -> Blue
       }
 
       #(Model(color), effect.none())
@@ -56,6 +58,7 @@ pub fn view(model: Model) -> Element(Message) {
             Blue -> "text-blue-500"
             Red -> "text-red-500"
             Yellow -> "text-yellow-500"
+            Pink -> "text-pink-500"
           },
         ),
       ],
