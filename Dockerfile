@@ -1,12 +1,10 @@
-# Replace with official docker image once released https://github.com/go-task/task/pull/1875
-FROM alpine:latest AS installer
-
-RUN apk add go-task git musl-dev
-
 FROM ghcr.io/gleam-lang/gleam:v1.9.1-erlang-alpine AS builder
 
+# Replace with official docker image once released https://github.com/go-task/task/pull/1875
+
+RUN apk add go-task git
+
 WORKDIR /build
-COPY --from=installer /usr/bin/go-task /usr/bin/task
 COPY . .
 
 RUN task build_prod
