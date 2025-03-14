@@ -46,9 +46,7 @@ pub fn base(content: Element(a), model: Json) -> Element(a) {
 }
 
 pub fn header() -> Element(a) {
-  html.header([], [
-    html.h1([], [html.text("Hi! I'm the header!")])
-  ])
+  html.header([], [html.h1([], [html.text("Hi! I'm the header!")])])
 }
 
 pub fn footer() -> Element(a) {

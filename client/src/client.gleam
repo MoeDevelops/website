@@ -1,4 +1,3 @@
-import lustre/attribute
 import client/layout
 import client/message.{type Message, ChangeColor}
 import client/model.{type Model, Markdown, Root}
@@ -10,6 +9,7 @@ import gleam/json
 import gleam/list
 import gleam/result
 import lustre
+import lustre/attribute
 import lustre/effect.{type Effect}
 import lustre/element.{type Element}
 import lustre/element/html
