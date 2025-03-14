@@ -1,79 +1,73 @@
 import client/layout
+import client/message.{type Message, ChangeColor}
+import client/model.{type Model, Markdown, Root}
+import client/view/markdown
+import client/view/root.{White}
+import gleam/dynamic
+import gleam/dynamic/decode
+import gleam/json
+import gleam/list
+import gleam/result
 import lustre
-import lustre/attribute
 import lustre/effect.{type Effect}
 import lustre/element.{type Element}
 import lustre/element/html
-import lustre/event
+import plinth/browser/document
+import plinth/browser/element as browser_element
 
 pub fn main() {
-  let app = lustre.application(fn(_) { init() }, update, view)
+  let json =
+    document.query_selector("#model")
+    |> result.map(browser_element.inner_text)
+
+  let model_result = case json {
+    Ok(text) ->
+      json.decode(text, fn(dyn) {
+        decode.run(dyn, model.model_decoder())
+        |> result.map_error(fn(errs) {
+          errs
+          |> list.map(fn(err) {
+            case err {
+              decode.DecodeError(a, b, c) -> dynamic.DecodeError(a, b, c)
+            }
+          })
+        })
+      })
+    _ -> Error(json.UnexpectedEndOfInput)
+  }
+
+  let app =
+    lustre.application(
+      fn(_) {
+        case model_result {
+          Ok(model) -> #(model, effect.none())
+          _ -> init()
+        }
+      },
+      update,
+      view,
+    )
   let assert Ok(_) = lustre.start(app, "#app", Nil)
 }
 
-pub type Model {
-  Model(color: Color)
-}
-
-pub type Color {
-  White
-  Red
-  Blue
-  Yellow
-  Pink
-}
-
-pub type Message {
-  ChangeColor
-}
-
-pub fn init() -> #(Model, Effect(Message)) {
-  #(Model(White), effect.none())
+pub fn init() -> #(model.Model, Effect(Message)) {
+  #(Root(White), effect.none())
 }
 
 pub fn update(model: Model, message: Message) -> #(Model, Effect(Message)) {
-  case message {
-    ChangeColor -> {
-      let color = case model.color {
-        Blue -> Red
-        Red -> White
-        White -> Yellow
-        Yellow -> Pink
-        Pink -> Blue
-      }
-
-      #(Model(color), effect.none())
-    }
+  case model, message {
+    Root(color), ChangeColor -> #(Root(root.update(color)), effect.none())
+    _, _ -> #(model, effect.none())
   }
 }
 
 pub fn view(model: Model) -> Element(Message) {
   html.div([], [
-    html.h1(
-      [
-        attribute.class(
-          "text-8xl "
-          <> case model.color {
-            White -> "dark:text-white"
-            Blue -> "text-blue-500"
-            Red -> "text-red-500"
-            Yellow -> "text-yellow-500"
-            Pink -> "text-pink-500"
-          },
-        ),
-      ],
-      [html.text("Hello, World!")],
-    ),
-    html.h2([attribute.class("text-6xl")], [html.text("Hi :D")]),
-    html.button(
-      [
-        event.on_click(ChangeColor),
-        attribute.class(
-          "dark:bg-white dark:hover:bg-gray-300 dark:text-black bg-black hover:bg-gray-800 text-white font-bold py-2 px-4 rounded",
-        ),
-      ],
-      [html.text("Change color")],
-    ),
+    layout.header(),
+    html.div([], case model {
+      Root(color) -> root.view(color)
+      Markdown(content) -> markdown.view(content)
+    }),
     layout.footer(),
   ])
 }

@@ -1,10 +1,11 @@
 import client/icon
+import gleam/json.{type Json}
 import lucide_lustre
 import lustre/attribute
 import lustre/element.{type Element}
 import lustre/element/html
 
-pub fn base(content: Element(a)) -> Element(a) {
+pub fn base(content: Element(a), model: Json) -> Element(a) {
   html.html([attribute.attribute("lang", "en")], [
     html.head([], [
       html.meta([attribute.attribute("charset", "UTF-8")]),
@@ -32,11 +33,20 @@ pub fn base(content: Element(a)) -> Element(a) {
         [attribute.src("/client/client.min.mjs"), attribute.type_("module")],
         "",
       ),
+      html.script(
+        [attribute.type_("application/json"), attribute.id("model")],
+        model
+          |> json.to_string(),
+      ),
     ]),
     html.body([attribute.class("dark:bg-black dark:text-white")], [
       html.div([attribute.id("app")], [content]),
     ]),
   ])
+}
+
+pub fn header() -> Element(a) {
+  html.header([], [])
 }
 
 pub fn footer() -> Element(a) {

@@ -1,9 +1,13 @@
 import client
 import client/layout
+import client/model.{type Model, Markdown}
 import gleam/http/request
 import gleam/http/response
+import gleam/option.{type Option, None, Some}
+import gleam/result
 import lustre/element
 import mist
+import server/blog
 import server/context.{type Context}
 import wisp.{type Request, type Response}
 import wisp/wisp_mist
@@ -35,19 +39,26 @@ pub fn handle_request(
 fn handle_request_wisp(req: Request, _ctx: Context) -> Response {
   use req <- middleware(req)
   case wisp.path_segments(req) {
-    [] -> build_lustre(client.view)
+    [] -> build_lustre(None)
+    ["blog", entry] ->
+      blog.get(entry)
+      |> result.map(fn(content) { Some(Markdown(content)) })
+      |> result.map(build_lustre)
+      |> result.unwrap_both()
     _ -> wisp.not_found() |> wisp.string_body("Not found")
   }
 }
 
-fn build_lustre(
-  view: fn(client.Model) -> element.Element(client.Message),
-) -> Response {
+fn build_lustre(model_option: Option(Model)) -> Response {
+  let model =
+    model_option
+    |> option.unwrap(client.init().0)
+
   wisp.ok()
   |> wisp.html_body(
-    client.init().0
-    |> view()
-    |> layout.base()
+    model
+    |> client.view()
+    |> layout.base(model.encode_model(model))
     |> element.to_document_string_builder(),
   )
 }

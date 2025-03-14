@@ -14,13 +14,13 @@ version = "1.0.0"
 
 [dependencies]
 client = { path = "../client" }
-shared = { path = "../shared" }
 gleam_stdlib = ">= 0.44.0 and < 2.0.0"
 wisp = ">= 1.5.3 and < 2.0.0"
 mist = ">= 4.0.7 and < 5.0.0"
 lustre = ">= 4.6.4 and < 5.0.0"
 gleam_erlang = ">= 0.34.0 and < 1.0.0"
-gleam_http = ">= 4.0.0 and < 5.0.0"
+gleam_http = ">= 3.0.0 and < 5.0.0"
+simplifile = ">= 2.2.0 and < 3.0.0"
 
 [dev-dependencies]
 gleeunit = ">= 1.0.0 and < 2.0.0"
