@@ -1,3 +1,4 @@
+import lustre/attribute
 import client/layout
 import client/message.{type Message, ChangeColor}
 import client/model.{type Model, Markdown, Root}
@@ -62,9 +63,9 @@ pub fn update(model: Model, message: Message) -> #(Model, Effect(Message)) {
 }
 
 pub fn view(model: Model) -> Element(Message) {
-  html.div([], [
+  html.div([attribute.class("flex flex-col h-screen justify-between")], [
     layout.header(),
-    html.div([], case model {
+    html.main([attribute.class("mb-auto")], case model {
       Root(color) -> root.view(color)
       Markdown(content) -> markdown.view(content)
     }),

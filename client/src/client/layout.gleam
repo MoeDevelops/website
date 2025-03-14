@@ -46,11 +46,13 @@ pub fn base(content: Element(a), model: Json) -> Element(a) {
 }
 
 pub fn header() -> Element(a) {
-  html.header([], [])
+  html.header([], [
+    html.h1([], [html.text("Hi! I'm the header!")])
+  ])
 }
 
 pub fn footer() -> Element(a) {
-  html.footer([], [
+  html.footer([attribute.class("dark:bg-gray-900 bg-gray-100")], [
     icon.link(
       lucide_lustre.github,
       "https://github.com/MoeDevelops/website",
