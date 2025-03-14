@@ -7,7 +7,7 @@ RUN apk add go-task git
 WORKDIR /build
 COPY . .
 
-RUN task build_prod
+RUN go-task build_prod
 
 FROM erlang:alpine
 LABEL org.opencontainers.image.source=https://github.com/MoeDevelops/website
