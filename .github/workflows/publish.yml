@@ -18,7 +18,7 @@ jobs:
       - name: Get Tag Info
         id: info
         run: |
-          echo "version=$(sed 's/^.//' <<< $RAWVERSION)" >> $GITHUB_OUTPUT
+          echo "version=$(sed 's/^.//' <<< ${{ github.event.release.tag_name }})" >> $GITHUB_OUTPUT
           echo "repo=$(sed 's/\(.*\)/\L\1/' <<< $GITHUB_REPOSITORY)" >> $GITHUB_OUTPUT
 
       - name: Check-out
