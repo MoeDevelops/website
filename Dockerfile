@@ -1,7 +1,7 @@
 FROM ghcr.io/gleam-lang/gleam:v1.9.1-erlang-alpine AS builder
 
 # Replace with official docker image once released https://github.com/go-task/task/pull/1875
-
+# Remove git once https://github.com/MystPi/conversation/issues/4 is merged
 RUN apk add go-task git
 
 WORKDIR /build
